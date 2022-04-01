@@ -22,7 +22,7 @@ class ConsultaFactory extends Factory
         return [
             'medico_id' => null,
             'paciente_id' => null,
-            'data' => ($data = $this->faker->dateTimeBetween($startDate = '- 3 days', $interval = '+ 2 days', $timezone = null))->format('Y-m-d H:i:s')
+            'data' => $this->faker->dateTimeBetween($startDate = '- 3 days', $interval = '+ 2 days', $timezone = null)->format('Y-m-d H:i:s')
         ];
     }
 }
