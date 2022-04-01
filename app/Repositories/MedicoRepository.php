@@ -14,7 +14,7 @@ class MedicoRepository {
         return Medico::where('email', $email)->first();
     }
 
-    public function salvar_medico(Medico $medico, array $dados) : Medico|null {
+    public function editar_medico(Medico $medico, array $dados) : Medico|null {
         $medico->fill($dados);
         $medico->save();
         return $medico;
