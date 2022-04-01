@@ -12,7 +12,7 @@ class Observacoes extends Model
     protected $table = 'observacoes';
 
     protected $fillable = [
-        'consulta_id', 'medico_id', 'mensagem'
+        'consulta_id', 'mensagem'
     ];
 
     public function medico() {
