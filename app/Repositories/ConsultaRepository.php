@@ -31,6 +31,12 @@ class ConsultaRepository {
         ]);
     } 
 
+    public function editar_consulta(Consulta $consulta, array $dados) : Consulta|null {
+        $consulta->fill($dados);
+        $consulta->save();
+        return $consulta;
+    }
+
     public function observar_consulta(Consulta $consulta, string $obs) : Observacoes|null {
         return Observacoes::create([
             'consulta_id' => $consulta->id,
