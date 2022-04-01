@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('ativo', function ($user) {
+            return ($user->status == 'ativo');
+        });
     }
 }
