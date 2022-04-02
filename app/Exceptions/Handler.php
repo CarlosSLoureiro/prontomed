@@ -36,10 +36,6 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->renderable(function (Exception $e, $request) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        });
-
         $this->renderable(function (ValidatorException $e, $request) {
             return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
         });
@@ -50,6 +46,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (LoginException $e, $request) {
             return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_UNAUTHORIZED);
+        });
+
+        $this->renderable(function (Exception $e, $request) {
+            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         });
     }
 }
