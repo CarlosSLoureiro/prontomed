@@ -40,13 +40,13 @@ class Medico extends Authenticatable
 
     public function consultas_anteriores() {
         $hoje = date('Y-m-d');
-        return $this->consultas()->where('status', '=', 'pendente')->whereDate('data', '<', $hoje);
+        return $this->consultas()->whereDate('data', '<', $hoje);
     }
 
     public function consultas_agendadas() {
         $hoje = date('Y-m-d');
         $amanha = date('Y-m-d', strtotime($hoje . ' +1 day'));
-        return $this->consultas()->where('status', '=', 'pendente')->whereDate('data', '>=', $amanha);
+        return $this->consultas()->whereDate('data', '>=', $amanha);
     }
 
     public function setSenhaAttribute($value) {
