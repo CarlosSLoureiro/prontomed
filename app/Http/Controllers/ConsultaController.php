@@ -9,6 +9,7 @@ use App\Validators\Consulta\ObservarValidator;
 use App\Actions\Consulta\CadastrarAct;
 use App\Actions\Consulta\EditarAct;
 use App\Actions\Consulta\ExcluirAct;
+use App\Actions\Consulta\ListarAct;
 use App\Actions\Consulta\ObservarAct;
 use App\Exceptions\ValidatorException;
 use Exception;
@@ -16,13 +17,14 @@ use Exception;
 class ConsultaController extends Controller
 {
 
-    private $cadastrar, $editar, $excluir, $observar;
+    private $cadastrar, $editar, $excluir, $observar, $listar;
 
-    public function __construct(CadastrarAct $cadastrar, EditarAct $editar, ExcluirAct $excluir, ObservarAct $observar) {
+    public function __construct(CadastrarAct $cadastrar, EditarAct $editar, ExcluirAct $excluir, ObservarAct $observar, ListarAct $listar) {
         $this->cadastrar = $cadastrar;
         $this->editar = $editar;
         $this->excluir = $excluir;
         $this->observar = $observar;
+        $this->listar = $listar;
     }
 
     public function agendar() {
@@ -80,6 +82,15 @@ class ConsultaController extends Controller
         }
         catch (Exception $e) {
             return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function listar($tipo) {
+        try {
+            return $this->listar->executar(request()->user(), $tipo, request()->query());
+        }
+        catch (Exception $e) {
+            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_EXPECTATION_FAILED);
         }
     }
 }
