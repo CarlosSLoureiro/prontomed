@@ -1,0 +1,23 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// FontAwesome
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+// Navbar
+@import 'layouts/v1/navbar';
+
+// Table
+@import 'layouts/v1/table';
+
+// Quote
+@import 'layouts/v1/quote';
+
+// Styles
+@import 'layouts/v1/styles';
