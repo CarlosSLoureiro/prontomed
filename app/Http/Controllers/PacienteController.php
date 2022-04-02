@@ -60,7 +60,7 @@ class PacienteController extends Controller
         }
     }
 
-    public function deletar($id) {
+    public function excluir($id) {
         try {
             return response()->json($this->excluir->executar($id), Response::HTTP_OK);
         }

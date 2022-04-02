@@ -55,7 +55,7 @@ class ExcluirActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_deletar_a_consulta() {
+    public function deve_excluir_a_consulta() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['id' => 1])->make();

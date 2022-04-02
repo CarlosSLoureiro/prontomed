@@ -58,7 +58,7 @@ class ConsultaController extends Controller
     }
 
 
-    public function deletar($id) {
+    public function excluir($id) {
         try {
             return response()->json($this->excluir->executar(request()->user(), $id), Response::HTTP_OK);
         }

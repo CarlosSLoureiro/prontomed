@@ -42,14 +42,14 @@ class PacienteTest extends TestCase {
     }
 
     /** @test */
-    public function deve_deletar_paciente_existente() {
+    public function deve_excluir_paciente_existente() {
         // Arrange
         $medico = Medico::factory()->create();
         $paciente = Paciente::factory()->create();
         $dados = ['id' => $paciente->id];
 
         // Feature
-        $resposta = parent::actingAs($medico)->json('DELETE', route('api.paciente.deletar', $dados));
+        $resposta = parent::actingAs($medico)->json('DELETE', route('api.paciente.excluir', $dados));
         
         // Assert
         $resposta->assertStatus(Response::HTTP_OK);

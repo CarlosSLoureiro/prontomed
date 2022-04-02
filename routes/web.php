@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::put('/paciente/{id}', [PacienteController::class, 'editar'])->name('paciente.editar');
 
         // Deleta um paciente
-        Route::delete('/paciente/{id}', [PacienteController::class, 'deletar'])->name('paciente.deletar');
+        Route::delete('/paciente/{id}', [PacienteController::class, 'excluir'])->name('paciente.excluir');
 
         // Lista consultas do médico de acordo com o tipo
         Route::get('/consultas/{tipo}', [ConsultaController::class, 'listar'])->name('consultas.listar');
@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/consulta/{id}', [ConsultaController::class, 'editar'])->name('consulta.editar');
 
         // Deleta uma consulta
-        Route::delete('/consulta/{id}', [ConsultaController::class, 'deletar'])->name('consulta.deletar');
+        Route::delete('/consulta/{id}', [ConsultaController::class, 'excluir'])->name('consulta.excluir');
 
         // Cadastra uma nova observação na consulta
         Route::post('/consulta/{id}/observacao', [ConsultaController::class, 'cadastrar_observacao'])->name('consulta.cadastrar_observacao');
