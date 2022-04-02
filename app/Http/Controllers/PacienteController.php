@@ -8,18 +8,20 @@ use App\Validators\Paciente\EditarValidator;
 use App\Actions\Paciente\CadastrarAct;
 use App\Actions\Paciente\EditarAct;
 use App\Actions\Paciente\ExcluirAct;
+use App\Actions\Paciente\ListarAct;
 use App\Exceptions\ValidatorException;
 use Exception;
 
 class PacienteController extends Controller
 {
 
-    private $cadastrar, $editar, $excluir;
+    private $cadastrar, $editar, $excluir, $listar;
 
-    public function __construct(CadastrarAct $cadastrar, EditarAct $editar, ExcluirAct $excluir) {
+    public function __construct(CadastrarAct $cadastrar, EditarAct $editar, ExcluirAct $excluir, ListarAct $listar) {
         $this->cadastrar = $cadastrar;
         $this->editar = $editar;
         $this->excluir = $excluir;
+        $this->listar = $listar;
     }
     
     public function cadastrar() {
@@ -66,6 +68,15 @@ class PacienteController extends Controller
         }
         catch (Exception $e) {
             return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function listar() {
+        try {
+            return $this->listar->executar(request()->query());
+        }
+        catch (Exception $e) {
+            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_EXPECTATION_FAILED);
         }
     }
 }
