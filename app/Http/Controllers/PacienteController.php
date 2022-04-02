@@ -25,58 +25,32 @@ class PacienteController extends Controller
     }
     
     public function cadastrar() {
-        try {
-            $dados = request()->all();
+        $dados = request()->all();
 
-            CadastrarValidator::validar($dados);
+        CadastrarValidator::validar($dados);
 
-            return response()->json(
-                $this->cadastrar->executar($dados),
-                Response::HTTP_OK
-            );
-        }
-        catch (ValidatorException $e) {
-            return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return response()->json(
+            $this->cadastrar->executar($dados),
+            Response::HTTP_OK
+        );
     }
 
     public function editar($id) {
-        try {
-            $dados = request()->all();
+        $dados = request()->all();
 
-            EditarValidator::validar($dados);
+        EditarValidator::validar($dados);
 
-            return response()->json(
-                $this->editar->executar($id, $dados),
-                Response::HTTP_OK
-            );
-        }
-        catch (ValidatorException $e) {
-            return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return response()->json(
+            $this->editar->executar($id, $dados),
+            Response::HTTP_OK
+        );
     }
 
     public function excluir($id) {
-        try {
-            return response()->json($this->excluir->executar($id), Response::HTTP_OK);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return response()->json($this->excluir->executar($id), Response::HTTP_OK);
     }
 
     public function listar() {
-        try {
-            return $this->listar->executar(request()->query());
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_EXPECTATION_FAILED);
-        }
+        return $this->listar->executar(request()->query());
     }
 }

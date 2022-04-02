@@ -28,69 +28,35 @@ class ConsultaController extends Controller
     }
 
     public function agendar() {
-        try {
-            $dados = request()->all();
+        $dados = request()->all();
 
-            CadastrarValidator::validar($dados);
+        CadastrarValidator::validar($dados);
 
-            return response()->json($this->cadastrar->executar(request()->user(), $dados), Response::HTTP_OK);
-        }
-        catch (ValidatorException $e) {
-            return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return response()->json($this->cadastrar->executar(request()->user(), $dados), Response::HTTP_OK);
     }
 
     public function editar($id) {
-        try {
-            $dados = request()->all();
+        $dados = request()->all();
 
-            EditarValidator::validar($dados);
-            
-            return response()->json($this->editar->executar(request()->user(), $id, $dados), Response::HTTP_OK);
-        }
-        catch (ValidatorException $e) {
-            return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        EditarValidator::validar($dados);
+        
+        return response()->json($this->editar->executar(request()->user(), $id, $dados), Response::HTTP_OK);
     }
 
 
     public function excluir($id) {
-        try {
-            return response()->json($this->excluir->executar(request()->user(), $id), Response::HTTP_OK);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return response()->json($this->excluir->executar(request()->user(), $id), Response::HTTP_OK);
     }
 
     public function cadastrar_observacao($id) {
-        try {
-            $dados = request()->all();
+        $dados = request()->all();
 
-            ObservarValidator::validar($dados);
+        ObservarValidator::validar($dados);
 
-            return response()->json($this->observar->executar(request()->user(), $id, $dados), Response::HTTP_OK);
-        }
-        catch (ValidatorException $e) {
-            return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return response()->json($this->observar->executar(request()->user(), $id, $dados), Response::HTTP_OK);
     }
 
     public function listar($tipo) {
-        try {
-            return $this->listar->executar(request()->user(), $tipo, request()->query());
-        }
-        catch (Exception $e) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_EXPECTATION_FAILED);
-        }
+        return $this->listar->executar(request()->user(), $tipo, request()->query());
     }
 }
