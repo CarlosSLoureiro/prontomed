@@ -32,7 +32,7 @@ class EditarAct {
         return $consulta;
     }
     
-    private function alterar_data(Medico $medico, Consulta $consulta, array $dados) {
+    private function alterar_data(Medico $medico, Consulta $consulta, array $dados) : Consulta {
         // Verifica se há consulta agendada 15 minutos antes da data escolhida
         $data = DateUtils::getAsDate($dados['data']);
 
@@ -47,5 +47,7 @@ class EditarAct {
         $this->consultaRepository->observar_consulta($consulta,
             'Reagendei essa consulta para ' . DateUtils::getAsDate($consulta->data)->isoFormat(DateUtils::pt_BR) . '.'
         );
+
+        return $consulta;
     }
 }
