@@ -5,7 +5,7 @@ namespace App\Actions\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\MedicoRepository;
 use App\Models\Medico;
-use Exception;
+use App\Exceptions\RequestException;
 
 class AlterarSenhaAct {
 
@@ -16,7 +16,7 @@ class AlterarSenhaAct {
     }
 
     public function executar(Medico $usuario, array $dados) : Medico {
-        if (!Hash::check($dados['senha-atual'], $usuario->senha)) throw new Exception('A sua senha atual está incorreta.');
+        if (!Hash::check($dados['senha-atual'], $usuario->senha)) throw new RequestException('A sua senha atual está incorreta.');
 
         return $this->medicoRepository->editar_medico($usuario, ['senha' => $dados['senha-nova']]);
     }

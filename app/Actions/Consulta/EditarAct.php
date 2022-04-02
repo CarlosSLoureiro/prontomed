@@ -6,7 +6,7 @@ use App\Utils\DateUtils;
 use App\Models\Consulta;
 use App\Models\Medico;
 use App\Repositories\ConsultaRepository;
-use Exception;
+use App\Exceptions\RequestException;
 
 class EditarAct {
 
@@ -20,10 +20,10 @@ class EditarAct {
         // Verifica se a consulta existe
         $consulta = $this->consultaRepository->obter_consulta($consulta_id);
 
-        if ($consulta == null) throw new Exception('Consulta não encontrada.');
+        if ($consulta == null) throw new RequestException('Consulta não encontrada.');
 
         // Apenas o médico responsável pela consulta pode reagendar
-        if ($consulta->medico_id != $medico->id) throw new Exception('Apenas o médico responsável por essa consulta pode reagendá-la.');
+        if ($consulta->medico_id != $medico->id) throw new RequestException('Apenas o médico responsável por essa consulta pode reagendá-la.');
 
         if (array_key_exists('data', $dados) && !empty($dados['data'])) {
             $consulta = $this->alterar_data($medico, $consulta, $dados);
@@ -38,7 +38,7 @@ class EditarAct {
 
         $consulta_em_conflito = $this->consultaRepository->obter_possivel_consulta_confilto_de_datas($medico, $data);
         
-        if ($consulta_em_conflito != null) throw new Exception('Você já possui uma consulta agendada para ' . DateUtils::getAsDate($consulta_em_conflito->data)->isoFormat(DateUtils::pt_BR) . '. Tente reagendar para ' . ConsultaRepository::TEMPO_MEDIO_DA_CONSULTA . ' minutos antes ou após.');
+        if ($consulta_em_conflito != null) throw new RequestException('Você já possui uma consulta agendada para ' . DateUtils::getAsDate($consulta_em_conflito->data)->isoFormat(DateUtils::pt_BR) . '. Tente reagendar para ' . ConsultaRepository::TEMPO_MEDIO_DA_CONSULTA . ' minutos antes ou após.');
 
         // Faz a troca
         $this->consultaRepository->editar_consulta($consulta, ['data' => $data]);
