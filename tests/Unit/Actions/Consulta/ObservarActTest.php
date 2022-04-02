@@ -8,7 +8,7 @@ use App\Repositories\ConsultaRepository;
 use App\Models\Medico;
 use App\Models\Consulta;
 use Mockery;
-use Exception;
+use App\Exceptions\RequestException;
 
 class ObservarActTest extends TestCase {
 
@@ -19,7 +19,7 @@ class ObservarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_esteja_observando_uma_consulta_que_nao_existe() {
+    public function deve_receber_requestexception_caso_o_medico_esteja_observando_uma_consulta_que_nao_existe() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['id' => 1])->make();
@@ -30,7 +30,7 @@ class ObservarActTest extends TestCase {
         $sut['consultaRepository']->shouldReceive('obter_consulta')->once()->with($consulta_id)->andReturn(null);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Consulta não encontrada.');
 
         // Run
@@ -38,7 +38,7 @@ class ObservarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_neduci_esteja_observando_uma_consulta_que_nao_eh_responsavel() {
+    public function deve_receber_requestexception_caso_o_neduci_esteja_observando_uma_consulta_que_nao_eh_responsavel() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['id' => 1])->make();
@@ -50,7 +50,7 @@ class ObservarActTest extends TestCase {
         $sut['consultaRepository']->shouldReceive('obter_consulta')->once()->with($consulta->id)->andReturn($consulta);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Apenas o médico responsável por essa consulta pode observá-la.');
 
         // Run

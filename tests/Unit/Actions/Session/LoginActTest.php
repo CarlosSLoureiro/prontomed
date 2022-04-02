@@ -7,7 +7,7 @@ use App\Actions\Session\LoginAct;
 use App\Repositories\MedicoRepository;
 use App\Models\Medico;
 use Mockery;
-use Exception;
+use App\Exceptions\LoginException;
 
 class LoginActTest extends TestCase {
 
@@ -18,7 +18,7 @@ class LoginActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_nao_exista() {
+    public function deve_receber_loginexception_caso_o_medico_nao_exista() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory()->make();
@@ -28,7 +28,7 @@ class LoginActTest extends TestCase {
         $sut['medicoRepository']->shouldReceive('obter_medico_por_email')->once()->with($dados['email'])->andReturn(null);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(LoginException::class);
         $this->expectExceptionMessage('Usuário \'' . $dados['email'] . '\' não encontrado.');
 
         // Run
@@ -36,7 +36,7 @@ class LoginActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_a_senha_nao_confere() {
+    public function deve_receber_loginexception_caso_a_senha_nao_confere() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['senha' => 'admin000'])->make();
@@ -46,7 +46,7 @@ class LoginActTest extends TestCase {
         $sut['medicoRepository']->shouldReceive('obter_medico_por_email')->once()->with($dados['email'])->andReturn($medico);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(LoginException::class);
         $this->expectExceptionMessage('Senha incorreta.');
 
         // Run
@@ -54,7 +54,7 @@ class LoginActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_esteja_desativado() {
+    public function deve_receber_loginexception_caso_o_medico_esteja_desativado() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['senha' => 'admin000', 'status' => 'desativado'])->make();
@@ -64,7 +64,7 @@ class LoginActTest extends TestCase {
         $sut['medicoRepository']->shouldReceive('obter_medico_por_email')->once()->with($dados['email'])->andReturn($medico);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(LoginException::class);
         $this->expectExceptionMessage('Você não possui mais acesso ao sistema. &#128533;');
 
         // Run

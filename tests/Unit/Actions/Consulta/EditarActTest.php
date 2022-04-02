@@ -10,7 +10,7 @@ use App\Models\Medico;
 use App\Models\Consulta;
 use App\Models\Observacoes;
 use Mockery;
-use Exception;
+use App\Exceptions\RequestException;
 
 class EditarActTest extends TestCase {
 
@@ -21,7 +21,7 @@ class EditarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_esteja_editando_uma_consulta_que_nao_existe() {
+    public function deve_receber_requestexception_caso_o_medico_esteja_editando_uma_consulta_que_nao_existe() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['id' => 1])->make();
@@ -32,7 +32,7 @@ class EditarActTest extends TestCase {
         $sut['consultaRepository']->shouldReceive('obter_consulta')->once()->with($consulta_id)->andReturn(null);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Consulta não encontrada.');
 
         // Run
@@ -40,7 +40,7 @@ class EditarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_esteja_editando_uma_consulta_que_nao_eh_responsavel() {
+    public function deve_receber_requestexception_caso_o_medico_esteja_editando_uma_consulta_que_nao_eh_responsavel() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['id' => 1])->make();
@@ -51,7 +51,7 @@ class EditarActTest extends TestCase {
         $sut['consultaRepository']->shouldReceive('obter_consulta')->once()->with($consulta->id)->andReturn($consulta);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Apenas o médico responsável por essa consulta pode reagendá-la.');
 
         // Run
@@ -59,7 +59,7 @@ class EditarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_esteja_editando_a_data_agendada_da_consulta_e_tenha_conflito_de_consultas() {
+    public function deve_receber_requestexception_caso_o_medico_esteja_editando_a_data_agendada_da_consulta_e_tenha_conflito_de_consultas() {
         // Arrange
         $sut = $this->getMockedSut();
         $usuario = Medico::factory(['id' => 1])->make();
@@ -80,7 +80,7 @@ class EditarActTest extends TestCase {
         $sut['consultaRepository']->shouldReceive('obter_possivel_consulta_confilto_de_datas')->once()->andReturn($consulta_em_conflito);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Você já possui uma consulta agendada para ' . DateUtils::getAsDate($consulta_em_conflito->data)->isoFormat(DateUtils::pt_BR) . '. Tente reagendar para ' . ConsultaRepository::TEMPO_MEDIO_DA_CONSULTA . ' minutos antes ou após.');
 
         // Run

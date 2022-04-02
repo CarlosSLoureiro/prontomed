@@ -11,7 +11,7 @@ use App\Models\Medico;
 use App\Models\Consulta;
 use App\Models\Paciente;
 use Mockery;
-use Exception;
+use App\Exceptions\RequestException;
 
 class CadastrarActTest extends TestCase {
 
@@ -23,7 +23,7 @@ class CadastrarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_paciente_nao_exista() {
+    public function deve_receber_requestexception_caso_o_paciente_nao_exista() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory(['id' => 1])->make();
@@ -33,7 +33,7 @@ class CadastrarActTest extends TestCase {
         $sut['pacienteRepository']->shouldReceive('obter_paciente')->once()->with(3)->andReturn(null);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Paciente não encontrado.');
 
         // Run
@@ -41,7 +41,7 @@ class CadastrarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_tenha_conflito_de_consultas() {
+    public function deve_receber_requestexception_caso_o_medico_tenha_conflito_de_consultas() {
         // Arrange
         $sut = $this->getMockedSut();
         $medico = Medico::factory()->make();
@@ -61,7 +61,7 @@ class CadastrarActTest extends TestCase {
         $sut['consultaRepository']->shouldReceive('obter_possivel_consulta_confilto_de_datas')->once()->andReturn($consulta);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Você já possui uma consulta agendada para ' . DateUtils::getAsDate($dados['data'])->isoFormat(DateUtils::pt_BR) . '. Tente agendar para ' . ConsultaRepository::TEMPO_MEDIO_DA_CONSULTA . ' minutos antes ou após.');
 
         // Run

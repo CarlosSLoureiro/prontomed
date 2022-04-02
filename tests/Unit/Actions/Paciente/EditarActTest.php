@@ -7,7 +7,7 @@ use App\Actions\Paciente\EditarAct;
 use App\Repositories\PacienteRepository;
 use App\Models\Paciente;
 use Mockery;
-use Exception;
+use App\Exceptions\RequestException;
 
 class EditarActTest extends TestCase {
 
@@ -18,7 +18,7 @@ class EditarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_paciente_nao_exista() {
+    public function deve_receber_requestexception_caso_o_paciente_nao_exista() {
         // Arrange
         $sut = $this->getMockedSut();
         $paciente_id = 2;
@@ -28,7 +28,7 @@ class EditarActTest extends TestCase {
         $sut['pacienteRepository']->shouldReceive('obter_paciente')->once()->with($paciente_id)->andReturn(null);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Paciente não encontrado.');
 
         // Run
@@ -36,7 +36,7 @@ class EditarActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_novo_email_ja_exista() {
+    public function deve_receber_requestexception_caso_o_novo_email_ja_exista() {
         // Arrange
         $sut = $this->getMockedSut();
         $paciente = Paciente::factory(['id' => 1])->make();
@@ -48,7 +48,7 @@ class EditarActTest extends TestCase {
         $sut['pacienteRepository']->shouldReceive('obter_paciente_por_email')->once()->with($dados['email'])->andReturn($paciente_existante);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Este email já está sendo utilizado por outro paciente.');
 
         // Run

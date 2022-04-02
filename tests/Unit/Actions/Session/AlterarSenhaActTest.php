@@ -7,7 +7,7 @@ use App\Actions\Session\AlterarSenhaAct;
 use App\Repositories\MedicoRepository;
 use App\Models\Medico;
 use Mockery;
-use Exception;
+use App\Exceptions\RequestException;
 
 class AlterarSenhaActTest extends TestCase {
 
@@ -18,14 +18,14 @@ class AlterarSenhaActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_a_senha_atual_nao_confere() {
+    public function deve_receber_requestexception_caso_a_senha_atual_nao_confere() {
         // Arrange
         $sut = $this->getMockedSut();
         $usuario = Medico::factory(['senha' => 'admin000'])->make();
         $dados = ['senha-atual' => '000admin', 'senha-nova' => '00admin00'];
         
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('A sua senha atual está incorreta.');
 
         // Run

@@ -7,7 +7,7 @@ use App\Actions\Paciente\ExcluirAct;
 use App\Repositories\PacienteRepository;
 use App\Models\Paciente;
 use Mockery;
-use Exception;
+use App\Exceptions\RequestException;
 
 class ExcluirActTest extends TestCase {
 
@@ -18,7 +18,7 @@ class ExcluirActTest extends TestCase {
     }
 
     /** @test */
-    public function deve_receber_exception_caso_o_medico_esteja_excluindo_um_paciente_que_nao_existe() {
+    public function deve_receber_requestexception_caso_o_medico_esteja_excluindo_um_paciente_que_nao_existe() {
         // Arrange
         $sut = $this->getMockedSut();
         $paciente_id = 2;
@@ -27,7 +27,7 @@ class ExcluirActTest extends TestCase {
         $sut['pacienteRepository']->shouldReceive('obter_paciente')->once()->with($paciente_id)->andReturn(null);
 
         // Assert
-        $this->expectException(Exception::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Paciente não encontrado.');
 
         // Run
