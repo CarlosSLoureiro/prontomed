@@ -49,9 +49,8 @@ class SessionController extends Controller
 
         SenhaValidator::validar($dados);
 
-        return response()->json(
-            $this->alterar_senha->executar(request()->user(), $dados),
-            Response::HTTP_OK
-        );
+        $resultado = $this->alterar_senha->executar(request()->user(), $dados);
+
+        return response()->json($resultado, Response::HTTP_OK);
     }
 }

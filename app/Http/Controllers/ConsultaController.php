@@ -11,8 +11,6 @@ use App\Actions\Consulta\EditarAct;
 use App\Actions\Consulta\ExcluirAct;
 use App\Actions\Consulta\ListarAct;
 use App\Actions\Consulta\ObservarAct;
-use App\Exceptions\ValidatorException;
-use Exception;
 
 class ConsultaController extends Controller
 {
@@ -32,20 +30,26 @@ class ConsultaController extends Controller
 
         CadastrarValidator::validar($dados);
 
-        return response()->json($this->cadastrar->executar(request()->user(), $dados), Response::HTTP_OK);
+        $resultado = $this->cadastrar->executar(request()->user(), $dados);
+
+        return response()->json($resultado, Response::HTTP_OK);
     }
 
     public function editar($id) {
         $dados = request()->all();
 
         EditarValidator::validar($dados);
+
+        $resultado = $this->editar->executar(request()->user(), $id, $dados);
         
-        return response()->json($this->editar->executar(request()->user(), $id, $dados), Response::HTTP_OK);
+        return response()->json($resultado, Response::HTTP_OK);
     }
 
 
     public function excluir($id) {
-        return response()->json($this->excluir->executar(request()->user(), $id), Response::HTTP_OK);
+        $resultado = $this->excluir->executar(request()->user(), $id);
+
+        return response()->json($resultado, Response::HTTP_OK);
     }
 
     public function cadastrar_observacao($id) {
@@ -53,10 +57,14 @@ class ConsultaController extends Controller
 
         ObservarValidator::validar($dados);
 
-        return response()->json($this->observar->executar(request()->user(), $id, $dados), Response::HTTP_OK);
+        $resultado = $this->observar->executar(request()->user(), $id, $dados);
+
+        return response()->json($resultado, Response::HTTP_OK);
     }
 
     public function listar($tipo) {
-        return $this->listar->executar(request()->user(), $tipo, request()->query());
+        $resultado = $this->listar->executar(request()->user(), $tipo, request()->query());
+        
+        return $resultado;
     }
 }
