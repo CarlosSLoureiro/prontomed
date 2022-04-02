@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +36,20 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Exception $e, $request) {
+            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        });
+
+        $this->renderable(function (ValidatorException $e, $request) {
+            return response()->json($e->getErrors(), Response::HTTP_BAD_REQUEST);
+        });
+
+        $this->renderable(function (RequestException $e, $request) {
+            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        });
+
+        $this->renderable(function (LoginException $e, $request) {
+            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_UNAUTHORIZED);
         });
     }
 }
