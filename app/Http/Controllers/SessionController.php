@@ -49,6 +49,17 @@ class SessionController extends Controller
         return response()->json([], Response::HTTP_OK);
     }
 
+    public function medico_dados() {
+        $dados = [
+            'medico' => Auth::user()->nome,
+            'consultas_do_dia' => Auth::user()->consultas_do_dia()->count(),
+            'consultas_agendadas' => Auth::user()->consultas_agendadas()->count(),
+            'consultas_anteriores' => Auth::user()->consultas_anteriores()->count()
+        ];
+
+        return response()->json($dados, Response::HTTP_OK);
+    }
+
     public function alterar_senha() {
         $dados = request()->all();
 
