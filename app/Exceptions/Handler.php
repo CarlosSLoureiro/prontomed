@@ -48,8 +48,5 @@ class Handler extends ExceptionHandler
             return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_UNAUTHORIZED);
         });
 
-        $this->renderable(function (Exception $e, $request) {
-            return response()->json(['mensagem' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        });
     }
 }
