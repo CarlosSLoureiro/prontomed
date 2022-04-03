@@ -14,7 +14,7 @@ class ExcluirAct {
         $this->consultaRepository = $consultaRepository;
     }
 
-    public function executar(Medico $usuario, int $consulta_id) : void {
+    public function executar(Medico $usuario, int $consulta_id) : array {
         // Verifica se a consulta existe
         $consulta = $this->consultaRepository->obter_consulta($consulta_id);
 
@@ -24,6 +24,8 @@ class ExcluirAct {
         if ($consulta->medico_id != $usuario->id) throw new RequestException('Apenas o médico responsável por essa consulta pode excluí-la.');
 
         $this->consultaRepository->excluir_consulta($consulta);
+
+        return ['deleted' => true];
     }
 
 }

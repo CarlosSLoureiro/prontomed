@@ -13,12 +13,14 @@ class ExcluirAct {
         $this->pacienteRepository = $pacienteRepository;
     }
 
-    public function executar(int $paciente_id) : void {
+    public function executar(int $paciente_id) : array {
         $paciente = $this->pacienteRepository->obter_paciente($paciente_id);
 
         if ($paciente == null) throw new RequestException('Paciente não encontrado.');
 
         $this->pacienteRepository->excluir_paciente($paciente);
+
+        return ['deleted' => true];
     }
 
 }

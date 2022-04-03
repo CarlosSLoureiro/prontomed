@@ -42,7 +42,7 @@ class SessionController extends Controller
         
         Auth::logout();
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json(['logged out' => true], Response::HTTP_OK);
     }
 
     public function medico_dados() {
