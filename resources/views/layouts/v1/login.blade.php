@@ -1,6 +1,6 @@
 <span class="login-page text-center">
   <main class="form-signin">
-      <form class="login-form" method="post" action="{{ route('api.logar') }}">
+      <form class="login-form" method="post" action="{{ route('api.login') }}">
   
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
           <h1 class="fw-bold">👨‍⚕️ {{ config('app.name') }}</h1>

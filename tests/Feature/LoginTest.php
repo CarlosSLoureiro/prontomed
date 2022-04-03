@@ -19,7 +19,7 @@ class LoginTest extends TestCase {
         ]);
 
         // Feature
-        $resposta = parent::json('POST', route('api.logar'), [
+        $resposta = parent::json('POST', route('api.login'), [
             'email' => $medico->email,
             'senha' => '123456789'
         ]);
@@ -41,7 +41,7 @@ class LoginTest extends TestCase {
         ]);
 
         // Feature
-        $resposta = parent::json('POST', route('api.logar'), [
+        $resposta = parent::json('POST', route('api.login'), [
             'email' => $medico->email,
             'senha' => 'test'
         ]);
@@ -62,7 +62,7 @@ class LoginTest extends TestCase {
         ]);
 
         // Feature
-        $resposta = parent::json('POST', route('api.logar'), [
+        $resposta = parent::json('POST', route('api.login'), [
             'email' => $medico->email,
             'senha' => 'test'
         ]);
