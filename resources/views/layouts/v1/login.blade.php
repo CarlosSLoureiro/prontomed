@@ -9,7 +9,7 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <link rel="shortcut icon" href="/img/logo.png" />
+    <link rel="shortcut icon" href="/favicon.svg" />
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>

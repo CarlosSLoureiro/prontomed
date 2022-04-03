@@ -7,10 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="Carlos Loureiro">
 
-    <title>👨‍⚕️ {{ config('app.name') }}</title>
+    <title>{{ config('app.name') }}</title>
+
+    <link rel="shortcut icon" href="/favicon.svg" />
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script type="text/javascript"> var MEDICO = { nome: "{{ auth()->user()->nome }}" }; </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
