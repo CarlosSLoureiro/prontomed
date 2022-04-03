@@ -32,7 +32,7 @@ class PacienteController extends Controller
         return response()->json($resultado, Response::HTTP_OK);
     }
 
-    public function editar($id) {
+    public function editar(int $id) {
         $dados = request()->all();
 
         EditarValidator::validar($dados);
@@ -42,7 +42,7 @@ class PacienteController extends Controller
         return response()->json($resultado, Response::HTTP_OK);
     }
 
-    public function excluir($id) {
+    public function excluir(int $id) {
         $resultado = $this->excluir->executar($id);
 
         return response()->json($resultado, Response::HTTP_OK);

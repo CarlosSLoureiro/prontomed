@@ -37,10 +37,10 @@ Route::group(['as' => 'api.'], function() {
         Route::post('/paciente', [PacienteController::class, 'cadastrar'])->name('paciente.cadastrar');
 
         // Edita um paciente
-        Route::put('/paciente/{id}', [PacienteController::class, 'editar'])->name('paciente.editar');
+        Route::put('/paciente/{id}', [PacienteController::class, 'editar'])->where('id', '[0-9]+')->name('paciente.editar');
 
         // Deleta um paciente
-        Route::delete('/paciente/{id}', [PacienteController::class, 'excluir'])->name('paciente.excluir');
+        Route::delete('/paciente/{id}', [PacienteController::class, 'excluir'])->where('id', '[0-9]+')->name('paciente.excluir');
 
         // Lista consultas do médico de acordo com o tipo
         Route::get('/consultas/{tipo}', [ConsultaController::class, 'listar'])->name('consultas.listar');
@@ -49,10 +49,10 @@ Route::group(['as' => 'api.'], function() {
         Route::post('/consulta', [ConsultaController::class, 'agendar'])->name('consulta.agendar');
 
         // Edita apenas a data agendada da consulta
-        Route::patch('/consulta/{id}', [ConsultaController::class, 'editar'])->name('consulta.editar');
+        Route::patch('/consulta/{id}', [ConsultaController::class, 'editar'])->where('id', '[0-9]+')->name('consulta.editar');
 
         // Deleta uma consulta
-        Route::delete('/consulta/{id}', [ConsultaController::class, 'excluir'])->name('consulta.excluir');
+        Route::delete('/consulta/{id}', [ConsultaController::class, 'excluir'])->where('id', '[0-9]+')->name('consulta.excluir');
 
         // Cadastra uma nova observação na consulta
         Route::post('/consulta/{id}/observacao', [ConsultaController::class, 'cadastrar_observacao'])->name('consulta.cadastrar_observacao');
