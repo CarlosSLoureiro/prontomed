@@ -20,10 +20,6 @@ class SessionController extends Controller
     }
 
     public function login() {
-        return view('paginas.login');
-    }
-
-    public function logar() {
         $dados = request()->all();
 
         LoginValidator::validar($dados);
