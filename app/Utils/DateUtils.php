@@ -12,7 +12,7 @@ class DateUtils {
 
     public const pt_BR = 'dddd, DD \\d\\e MMMM \\d\\e gggg \\a\\s HH:mm';
 
-    public static function getAsDate($date, $format = 'Y-m-d H:i:s') {
+    public static function getAsDate($date, $format = Carbon::DEFAULT_TO_STRING_FORMAT) {
         return Carbon::createFromFormat($format, date($format, strtotime($date)));
     }
 

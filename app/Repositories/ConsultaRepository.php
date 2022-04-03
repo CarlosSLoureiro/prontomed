@@ -18,16 +18,16 @@ class ConsultaRepository {
 
     public function obter_possivel_consulta_confilto_de_datas(Medico $medico, Carbon $data) : Consulta|null {
         return Consulta::where('medico_id', $medico->id)
-            ->where('data', '>', $data->addMinutes(-self::TEMPO_MEDIO_DA_CONSULTA))
-            ->where('data', '<', $data->addMinutes(self::TEMPO_MEDIO_DA_CONSULTA))
-            ->first();
+            ->where('data', '>', $data->addMinutes(-self::TEMPO_MEDIO_DA_CONSULTA)->format(Carbon::DEFAULT_TO_STRING_FORMAT))
+            ->where('data', '<', $data->addMinutes(self::TEMPO_MEDIO_DA_CONSULTA)->format(Carbon::DEFAULT_TO_STRING_FORMAT))
+            ->orderBy('data', 'DESC')->first();
     }
 
     public function cadastrar_consulta(Medico $medico, Paciente $paciente, Carbon $data) : Consulta|null {
         return Consulta::create([
             'medico_id' => $medico->id,
             'paciente_id' => $paciente->id,
-            'data' => $data
+            'data' => $data->format(Carbon::DEFAULT_TO_STRING_FORMAT)
         ]);
     } 
 
