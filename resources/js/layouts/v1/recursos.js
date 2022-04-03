@@ -88,6 +88,110 @@
         };
     })();
 
+    let definir_headers = function() {
+        let Authorization = localStorage.getItem('Authorization');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': ((!(Authorization === null)) ? 'Bearer ' + Authorization : '')
+            }
+        });
+    };
+
+    let definir_login = function(){
+        let debug = true;
+        let solicitando = false;
+        let form = $('.login-form');
+        let title = form.find('.title').html();
+        let modal = new bootstrap.Modal($('#modal-mensagem-login').get(0), { keyboard: false });
+        form.on("submit", function(e){
+            e.preventDefault();
+            form.find('.title').html('Logando...');
+            if (!solicitando) {
+                solicitando = true;
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        localStorage.setItem('Authorization', response.token);
+                        definir_headers();
+                        definir_medico_infos();
+                        form.find('input').val('');
+                        setTimeout(function() {
+                            form.find('.title').html(title);
+                        }, 3000);
+                        solicitando = false;
+                    },
+                    error: function (request, status, error) {
+                        let err = error;
+                
+                        if (request.responseJSON.mensagem != null) {
+                            err = request.responseJSON.mensagem;
+                        } else if (debug && request.responseJSON.message != null && request.responseJSON.message != "") {
+                            err = request.responseJSON.message;
+                        } else if (request.responseJSON != null) {
+                            let errors = request.responseJSON;
+                            err = '';
+                            Object.keys(errors).forEach(function(k){
+                                errors[k].forEach(function(msg) {
+                                    err += ((err.length > 0) ? '<br>' : '') + msg;
+                                });
+                            });
+                        }
+                        $(modal._element).find('.modal-title').html('Não foi possível efetuar o login');
+                        $(modal._element).find('.modal-body').html(err);
+                        modal.show();
+                        solicitando = false;
+                        form.find('.title').html(title);
+                    }
+                });
+            }
+        });
+    };
+
+    let definir_logout = function() {
+        $('.logout').on('click', function(){
+            $.ajax({
+                type: 'GET',
+                url: '/api/logout',
+                dataType: "json",
+                success: function(response) {
+                    localStorage.removeItem('Authorization');
+                    definir_headers();
+                    $(".app-page").slideUp({
+                        done: function(){
+                            $(".login-page").slideDown();
+                        }
+                    });
+                },
+                error: request_error('Não foi possível fazer o logout!')
+            });
+        });
+    };
+
+    let definir_pagina = function() {
+        $(".login-page").hide();
+        $(".app-page").hide();
+        $("body").show();
+    };
+
+    let definir_app = function() {
+        $('.table').DataTable({searching: false, paging: false, info: false, ordering: false});
+        $('#listar-pacientes').on('show.bs.modal', function(e) { carregar_pacientes($(this)) });
+        $('#listar-consultas-do-dia').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
+        $('#listar-consultas-agendadas').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
+        $('#listar-consultas-anteriores').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
+        modal_cadastrar($('#formulario-paciente'), 'paciente');
+        $('input[name="telefone"]').mask("(99) 99999-9999");
+        $('#formulario-senha').find('form').on('submit', alterar_senha);
+        $('button[type="submit"]').each(function(index,item){
+            $(item).data('name', $(item).text());
+        });
+    };
+
     let back_submits = function() {
         $('button[type="submit"]').each(function(index,item){
             $(item).text($(item).data('name'));
@@ -180,10 +284,10 @@
     }
 
     let atualizar_pagina = function() {
-        carregar_medico_infos();
+        definir_medico_infos();
     }
 
-    let carregar_medico_infos = function() {
+    let definir_medico_infos = function() {
         $.ajax({
             type: 'GET',
             url: '/api/meus-dados',
@@ -194,13 +298,27 @@
                 $('.n-consultas-do-dia').text(response.consultas_do_dia);
                 $('.n-consultas-agendadas').text(response.consultas_agendadas);
                 $('.n-consultas-anteriores').text(response.consultas_anteriores);
+                
+                $(".login-page").slideUp({
+                    done: function(){
+                        $(".app-page").slideDown();
+                    }
+                });
             },
-            statusCode: {
-                403: function() {
-                    window.location = '/logout';
+            error: function(request, status, error) {
+                switch (error) {
+                    case 'Unauthorized':
+                        $(".app-page").slideUp({
+                            done: function(){
+                                $(".login-page").slideDown();
+                            }
+                        });
+                        return;
+                    default:
+                        request_error('Não foi possível carregar seus dados!')(request, status, error);
+                        return;
                 }
-            },
-            error: request_error('Não foi possível carregar seus dados!')
+            }
         });
     }
 
@@ -844,19 +962,11 @@
     };
 
     $(document).ready(function(){
-        if (!Boolean($('.login-form').length)) {
-            carregar_medico_infos();
-        }
-        $('.table').DataTable({searching: false, paging: false, info: false, ordering: false});
-        $('#listar-pacientes').on('show.bs.modal', function(e) { carregar_pacientes($(this)) });
-        $('#listar-consultas-do-dia').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
-        $('#listar-consultas-agendadas').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
-        $('#listar-consultas-anteriores').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
-        modal_cadastrar($('#formulario-paciente'), 'paciente');
-        $('input[name="telefone"]').mask("(99) 99999-9999");
-        $('#formulario-senha').find('form').on('submit', alterar_senha);
-        $('button[type="submit"]').each(function(index,item){
-            $(item).data('name', $(item).text());
-        });
+        definir_pagina();
+        definir_headers();
+        definir_login();
+        definir_logout();
+        definir_medico_infos();
+        definir_app();
     });
 })();

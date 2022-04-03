@@ -15,11 +15,15 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
-    @include('layouts.v1.navbar')
+    <span class="app-page">
+        @include('layouts.v1.navbar')
 
-    <main class="container">
-        @yield('content')
-    </main>
+        <main class="container">
+            @yield('content')
+        </main>
+    </span>
+
+    @include('layouts.v1.login');
 
     @include('layouts.v1.modals')
     

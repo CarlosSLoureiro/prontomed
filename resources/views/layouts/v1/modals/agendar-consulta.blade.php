@@ -1,9 +1,5 @@
 <div id="agendar-consulta" class="modal fade" tabindex="-1" data-bs-backdrop='static'>
-    @if(auth()->user()->status == 'administrador')
-    <div class="modal-dialog modal-lg">
-    @else
     <div class="modal-dialog">
-    @endif
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Agendar consulta para o paciente</h5>

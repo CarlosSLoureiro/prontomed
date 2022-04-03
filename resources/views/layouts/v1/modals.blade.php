@@ -1,4 +1,5 @@
 @include('layouts.v1.modals.mensagem')
+@include('layouts.v1.modals.mensagem-login')
 
 @include('layouts.v1.modals.formulario-senha')
 
