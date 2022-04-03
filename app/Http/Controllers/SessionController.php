@@ -30,18 +30,23 @@ class SessionController extends Controller
 
         $usuario = $this->login->executar($dados);
 
-        Auth::login($usuario, true);
-        
-        return response()->json(
-            ['nome' => $usuario->nome, 'url' => route("principal")],
-            Response::HTTP_OK
-        );
+        $token = Auth::login($usuario, true);
+
+        $dados = [
+            'nome' => $usuario->nome,
+            'url' => route("principal"),
+            'token' => $token
+        ];
+
+        return response()->json($dados, Response::HTTP_OK);
     }
 
     public function logout() {
         Session::flush();
+        
         Auth::logout();
-        return redirect()->route('login');
+
+        return response()->json([], Response::HTTP_OK);
     }
 
     public function alterar_senha() {
