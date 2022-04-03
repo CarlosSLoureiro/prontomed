@@ -155,7 +155,7 @@
     let definir_logout = function() {
         $('.logout').on('click', function(){
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/api/logout',
                 dataType: "json",
                 success: function(response) {

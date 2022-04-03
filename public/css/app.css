@@ -64928,10 +64928,6 @@ body {
   width: 100%;
 }
 
-.logout {
-  cursor: pointer;
-}
-
 .login-page {
   display: flex;
   align-items: center;

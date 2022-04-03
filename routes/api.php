@@ -20,7 +20,7 @@ use App\Http\Controllers\ConsultaController;
 
 Route::group(['as' => 'api.'], function() {
     Route::post('/login', [SessionController::class, 'logar'])->name('logar');
-    Route::get('/logout', [SessionController::class, 'logout'])->name('logout');
+    Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
 
     // Apenas medicos autenticados com JWT válido e médicos com status ativos
     Route::group(['middleware' => ['auth:api', 'can:ativo']], function() {
