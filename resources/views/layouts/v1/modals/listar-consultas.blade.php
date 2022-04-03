@@ -13,10 +13,10 @@
             'api' => route('api.consultas.listar', ['tipo'=>'agendadas'])
         ),
         array(
-            'id' => 'listar-consultas-anteriores',
-            'title' => 'Suas consultas anteriores',
+            'id' => 'listar-consultas-passadas',
+            'title' => 'Suas consultas passadas',
             'filtro_simples' => false,
-            'api' => route('api.consultas.listar', ['tipo'=>'anteriores'])
+            'api' => route('api.consultas.listar', ['tipo'=>'passadas'])
         )
     );
 @endphp

@@ -50,7 +50,7 @@ class SessionController extends Controller
             'medico' => Auth::user(),
             'consultas_do_dia' => Auth::user()->consultas_do_dia()->count(),
             'consultas_agendadas' => Auth::user()->consultas_agendadas()->count(),
-            'consultas_anteriores' => Auth::user()->consultas_anteriores()->count()
+            'consultas_passadas' => Auth::user()->consultas_passadas()->count()
         ];
 
         return response()->json($dados, Response::HTTP_OK);

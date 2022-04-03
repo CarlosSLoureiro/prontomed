@@ -38,7 +38,7 @@ class Medico extends Authenticatable implements JWTSubject
         return $this->consultas()->whereDate('data', '>=', $hoje)->whereDate('data', '<', $amanha);
     }
 
-    public function consultas_anteriores() {
+    public function consultas_passadas() {
         $hoje = date('Y-m-d');
         return $this->consultas()->whereDate('data', '<', $hoje);
     }

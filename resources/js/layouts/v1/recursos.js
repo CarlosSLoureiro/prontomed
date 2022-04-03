@@ -183,7 +183,7 @@
         $('#listar-pacientes').on('show.bs.modal', function(e) { carregar_pacientes($(this)) });
         $('#listar-consultas-do-dia').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
         $('#listar-consultas-agendadas').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
-        $('#listar-consultas-anteriores').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
+        $('#listar-consultas-passadas').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
         modal_cadastrar($('#formulario-paciente'), 'paciente');
         $('input[name="telefone"]').mask("(99) 99999-9999");
         $('#formulario-senha').find('form').on('submit', alterar_senha);
@@ -297,7 +297,7 @@
                 $('.medico-nome').text(MEDICO.nome);
                 $('.n-consultas-do-dia').text(response.consultas_do_dia);
                 $('.n-consultas-agendadas').text(response.consultas_agendadas);
-                $('.n-consultas-anteriores').text(response.consultas_anteriores);
+                $('.n-consultas-passadas').text(response.consultas_passadas);
                 
                 $(".login-page").slideUp({
                     done: function(){

@@ -82,7 +82,7 @@ class ConsultaRepository {
         switch ($tipo) {
             case "hoje": return $medico->consultas_do_dia();
             case "agendadas": return $medico->consultas_agendadas();
-            case "anteriores": return $medico->consultas_anteriores();
+            case "passadas": return $medico->consultas_passadas();
             default: return $medico->consultas();
         }
     }
