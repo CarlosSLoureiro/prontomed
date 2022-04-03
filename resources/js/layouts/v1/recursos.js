@@ -293,7 +293,7 @@
             url: '/api/meus-dados',
             dataType: "json",
             success: function(response) {
-                MEDICO.nome = response.medico;
+                MEDICO = response.medico;
                 $('.medico-nome').text(MEDICO.nome);
                 $('.n-consultas-do-dia').text(response.consultas_do_dia);
                 $('.n-consultas-agendadas').text(response.consultas_agendadas);

@@ -47,7 +47,7 @@ class SessionController extends Controller
 
     public function medico_dados() {
         $dados = [
-            'medico' => Auth::user()->nome,
+            'medico' => Auth::user(),
             'consultas_do_dia' => Auth::user()->consultas_do_dia()->count(),
             'consultas_agendadas' => Auth::user()->consultas_agendadas()->count(),
             'consultas_anteriores' => Auth::user()->consultas_anteriores()->count()
