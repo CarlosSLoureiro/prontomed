@@ -53,6 +53,7 @@ class PacienteTest extends TestCase {
         
         // Assert
         $resposta->assertStatus(Response::HTTP_OK);
+        $resposta->assertJson(['deleted' => true]);
         parent::assertDatabaseMissing('pacientes', $dados);
     }
     
