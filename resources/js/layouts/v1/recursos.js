@@ -8,6 +8,7 @@
     let debug = true;
     let cache_rand = null;
     let cache_busca = null;
+    let MEDICO = {};
 
     let bootstrap_modal_backdrop = (function() {
         let old_focus;
@@ -179,7 +180,28 @@
     }
 
     let atualizar_pagina = function() {
-        $('#pagina-principal').load(document.location.origin +  ' #minhas-consultas');
+        carregar_medico_infos();
+    }
+
+    let carregar_medico_infos = function() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/meus-dados',
+            dataType: "json",
+            success: function(response) {
+                MEDICO.nome = response.medico;
+                $('.medico-nome').text(MEDICO.nome);
+                $('.n-consultas-do-dia').text(response.consultas_do_dia);
+                $('.n-consultas-agendadas').text(response.consultas_agendadas);
+                $('.n-consultas-anteriores').text(response.consultas_anteriores);
+            },
+            statusCode: {
+                403: function() {
+                    window.location = '/logout';
+                }
+            },
+            error: request_error('Não foi possível carregar seus dados!')
+        });
     }
 
     let modal_msg = function(title, body, temp = 0) {
@@ -822,6 +844,9 @@
     };
 
     $(document).ready(function(){
+        if (!Boolean($('.login-form').length)) {
+            carregar_medico_infos();
+        }
         $('.table').DataTable({searching: false, paging: false, info: false, ordering: false});
         $('#listar-pacientes').on('show.bs.modal', function(e) { carregar_pacientes($(this)) });
         $('#listar-consultas-do-dia').on('show.bs.modal', function(e) { carregar_consultas($(this))() });
