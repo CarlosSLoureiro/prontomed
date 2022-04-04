@@ -7,14 +7,14 @@ ProntoMed é um sistema de prontuário eletrônico feito com [Laravel 9.2](https
 
 # ✅ Guia de Controle
 
-- [ ] Diagrama de Entidade Relacional
-- [ ] Banco de Dados (MySQL)
-- [ ] PHP
-- [ ] Restful
-- [ ] Regras de negócio
-- [ ] JWT Token
-- [ ] Testes
-- [ ] Postman
+- [x] Diagrama de Entidade Relacional
+- [x] Banco de Dados
+- [x] PHP
+- [x] Restful
+- [x] Regras de negócio
+- [x] JWT Token
+- [x] Testes
+- [x] Postman
 - [ ] Docker
 
 # 💻 Pré-requisitos
@@ -28,12 +28,13 @@ Para instalar o **ProntoMed**, siga estas etapas:
 
 1. ...
 
-# ✔️Postman
-- [Autenticação](#) (Login, Logout)
-- [Pacientes](#) (Listar, Criar, Editar, Excluir)
-- [Consultas](#) (Listar, Criar, Editar, Adicionar Observação, Excluir)
+# [✔️ Postman](https://www.postman.com/flight-specialist-65767632/workspace/prontomed/collection/20220169-4194991e-6b6f-4725-8732-009ec17a6e9d?ctx=documentation)
+- **Autenticação** (Login, Carregar Dados, Logout)
+- **Pacientes** (Listar, Cadastrar, Editar, Excluir)
+- **Consultas** (Listar, Cadastrar, Reagendar, Adicionar Observação, Excluir)
 
 # 📈 Diagrama de Entidade Relacional
+<img src="https://i.imgur.com/VA7JOxS.png" alt="Diagrama ER">
 
 # 📝 Licença
 
