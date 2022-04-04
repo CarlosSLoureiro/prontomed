@@ -118,11 +118,10 @@
                     success: function(response) {
                         localStorage.setItem('Authorization', response.token);
                         definir_headers();
-                        definir_medico_infos();
-                        form.find('input').val('');
-                        setTimeout(function() {
+                        definir_medico_infos(function() {
+                            form.find('input').val('');
                             form.find('.title').html(title);
-                        }, 3000);
+                        });
                         solicitando = false;
                     },
                     error: function (request, status, error) {
@@ -287,7 +286,7 @@
         definir_medico_infos();
     }
 
-    let definir_medico_infos = function() {
+    let definir_medico_infos = function(reset_login=null) {
         $.ajax({
             type: 'GET',
             url: '/api/meus-dados',
@@ -302,6 +301,9 @@
                 $(".login-page").slideUp({
                     done: function(){
                         $(".app-page").slideDown();
+                        if (reset_login != null) {
+                            reset_login();
+                        }
                     }
                 });
             },
