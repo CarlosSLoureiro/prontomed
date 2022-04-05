@@ -30,7 +30,6 @@ class SessionController extends Controller
 
         $dados = [
             'nome' => $usuario->nome,
-            'url' => route("principal"),
             'token' => $token
         ];
 
