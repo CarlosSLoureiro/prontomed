@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      args:
+        user: carlos
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: prontomed
+    container_name: prontomed-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./docker/php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - prontomed
+      
+  nginx:
+    image: nginx:alpine
+    container_name: prontomed-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - prontomed
+
+  db:
+    image: mysql:8
+    container_name: prontomed-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: prontomed
+      MYSQL_ROOT_PASSWORD: prontomed000
+    networks:
+      - prontomed
+      
+networks:
+  prontomed:
+    driver: bridge
