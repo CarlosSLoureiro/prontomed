@@ -69,7 +69,7 @@ class LoginTest extends TestCase {
 
         // Assert
         $resposta->assertStatus(Response::HTTP_OK);
-        $resposta->assertJsonStructure(['nome', 'url']);
+        $resposta->assertJsonStructure(['nome', 'token']);
         parent::assertAuthenticatedAs($medico);
     }
 }
