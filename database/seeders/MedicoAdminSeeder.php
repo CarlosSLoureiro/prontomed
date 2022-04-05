@@ -16,10 +16,10 @@ class MedicoAdminSeeder extends Seeder
     public function run()
     {
         $admin = Medico::factory()->make([
-            'email' => 'admin@s2medicos.org'
+            'email' => 'admin@prontomed.com'
         ])->toArray();
 
-        $admin['senha'] = 'admin000';
+        $admin['senha'] = 'med-admin000';
 
         Medico::create($admin);
     }
